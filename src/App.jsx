@@ -2,7 +2,8 @@ import { useState } from "react";
 import lovesvg from "./assets/All You Need Is Love SVG Cut File.svg";
 import lovesvg2 from "./assets/Love In The Air SVG Cut File.svg";
 
-const LOG_ENDPOINT = "http://localhost:8787/log";
+const LOG_ENDPOINT =
+  import.meta.env.DEV ? "http://localhost:8787/log" : null;
 
 export default function Page() {
   const [noCount, setNoCount] = useState(0);
@@ -10,24 +11,24 @@ export default function Page() {
   const yesButtonSize = noCount * 20 + 16;
 
   const sendLog = async (choice, extra = {}) => {
-    // Extra safety: don't block UI if server isn't running
-    try {
-      await fetch(LOG_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          choice, // "YES" | "NO"
-          noCount,
-          path: window.location.pathname,
-          at: new Date().toISOString(),
-          ...extra,
-        }),
-      });
-    } catch (e) {
-      // Optional: keep a browser-side hint (can remove if you want)
-      console.warn("Could not send log to server:", e?.message || e);
-    }
-  };
+  if (!LOG_ENDPOINT) return; // no logging in production
+
+  try {
+    await fetch(LOG_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        choice,
+        noCount,
+        path: window.location.pathname,
+        at: new Date().toISOString(),
+        ...extra,
+      }),
+    });
+  } catch (e) {
+    console.warn("Could not send log to server:", e?.message || e);
+  }
+};
 
   const handleNoClick = () => {
     // log first (with current noCount)
