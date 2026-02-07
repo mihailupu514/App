@@ -82,7 +82,7 @@ export default function Page() {
             alt="Bear"
           />
           <h1 className="text-4xl md:text-6xl my-4 text-center">
-            Vrei să fii Valentine-ul meu?
+            Vrei să fii partenera mea de Ziua Îndrăgostiților??
           </h1>
           <div className="flex flex-wrap justify-center gap-2 items-center">
             <button
