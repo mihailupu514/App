@@ -2,8 +2,7 @@ import { useState } from "react";
 import lovesvg from "./assets/All You Need Is Love SVG Cut File.svg";
 import lovesvg2 from "./assets/Love In The Air SVG Cut File.svg";
 
-const LOG_ENDPOINT =
-  import.meta.env.DEV ? "http://localhost:8787/log" : null;
+const LOG_ENDPOINT = "/api/log";
 
 export default function Page() {
   const [noCount, setNoCount] = useState(0);
